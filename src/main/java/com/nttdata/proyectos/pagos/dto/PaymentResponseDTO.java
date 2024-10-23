@@ -3,13 +3,22 @@ package com.nttdata.proyectos.pagos.dto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class PaymentRequestDTO {
-    private String cardNumber;  // VARCHAR(255)
-    private BigDecimal amount;  // NUMERIC(38,2)
-    private LocalDate paymentDate;  // DATE
-    private String description;  // VARCHAR(255), opcional
+public class PaymentResponseDTO {
+    private Long id;
+    private String cardNumber;
+    private BigDecimal amount;
+    private LocalDate paymentDate;
+    private String description;
 
     // Getters y Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getCardNumber() {
         return cardNumber;
     }
