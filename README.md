@@ -9,8 +9,6 @@ Este proyecto es un microservicio de gestión de pagos de tarjetas de crédito.
 - [Uso](#uso)
 - [Estructura de Ramas (Gitflow)](#estructura-de-ramas-gitflow)
 - [Documentación de la API](#documentación-de-la-api)
-- [Contribuciones](#contribuciones)
-- [Licencia](#licencia)
 
 ## Características
 - Registro de pagos de tarjetas de crédito.
