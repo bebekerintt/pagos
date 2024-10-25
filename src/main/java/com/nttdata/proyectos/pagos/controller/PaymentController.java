@@ -27,7 +27,7 @@ public class PaymentController {
     @PostMapping
     public ResponseEntity<String> addPayment(@RequestBody PaymentRequestDTO paymentRequest) {
         paymentService.registerPayment(paymentRequest);
-        return ResponseEntity.ok("Pago registrado exitosamente");
+        return ResponseEntity.ok("Pago guardado en bbdd");
     }
 }
 

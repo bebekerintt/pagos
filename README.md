@@ -24,7 +24,7 @@ Este proyecto es un microservicio de gestión de pagos de tarjetas de crédito.
 - **Swagger** para la documentación de la API
 - **Maven** para la gestión de dependencias
 - **Gitflow** para la gestión de versiones
-- **Jakarta Persistence API (JPA)** para la persistencia de datos (en proceso de cambio para jdbc)
+- **Java Database Connectivity (JDBC)** para la persistencia de datos
 
 ## Instalación
 

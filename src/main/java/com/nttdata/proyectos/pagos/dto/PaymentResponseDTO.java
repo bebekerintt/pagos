@@ -10,6 +10,16 @@ public class PaymentResponseDTO {
     private LocalDate paymentDate;
     private String description;
 
+    public PaymentResponseDTO() {}
+
+    public PaymentResponseDTO(Long id, String cardNumber, BigDecimal amount, LocalDate paymentDate, String description) {
+        this.id = id;
+        this.cardNumber = cardNumber;
+        this.amount = amount;
+        this.paymentDate = paymentDate;
+        this.description = description;
+    }
+
     // Getters y Setters
     public Long getId() {
         return id;

@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class PaymentRequestDTO {
-    private String cardNumber;  // VARCHAR(255)
-    private BigDecimal amount;  // NUMERIC(38,2)
-    private LocalDate paymentDate;  // DATE
-    private String description;  // VARCHAR(255), opcional
+    private String cardNumber;
+    private BigDecimal amount;
+    private LocalDate paymentDate;
+    private String description;
 
     // Getters y Setters
     public String getCardNumber() {
