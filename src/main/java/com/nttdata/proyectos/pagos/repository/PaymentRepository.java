@@ -41,7 +41,7 @@ public class PaymentRepository {
     }
 
     // Implementamos el RowMapper para mapear los resultados a un PaymentResponseDTO
-    private static class PaymentRowMapper implements RowMapper<PaymentResponseDTO> {
+    public static class PaymentRowMapper implements RowMapper<PaymentResponseDTO> {
 
         @Override
         public PaymentResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -1,6 +1,6 @@
-package com.nttdata.proyectos.pagos.repository;
+package com.nttdata.proyectos.pagos.service;
 
-import com.nttdata.proyectos.pagos.service.PaymentService;
+import com.nttdata.proyectos.pagos.repository.PaymentRepository;
 import com.nttdata.proyectos.pagos.dto.PaymentResponseDTO;
 import com.nttdata.proyectos.pagos.dto.PaymentRequestDTO;
 
