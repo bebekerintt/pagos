@@ -36,18 +36,52 @@ Este proyecto es un microservicio de gestión de pagos de tarjetas de crédito.
 
 ### Pasos para ejecutar el proyecto
 
+0. Configuracion de la base de datos
+    Para ejecutar la aplicación en su máquina local, es necesario configurar la base de datos PostgreSQL correspondiente. A continuación se presentan los pasos necesarios para crear la base de datos y la tabla de payments.
+    Asegúrate de tener instalado PostgreSQL y tener acceso a la herramienta `psql` o cualquier cliente de base de datos que prefieras.
+- **Conéctate a PostgreSQL**:
+   Abre una terminal y ejecuta el siguiente comando para conectarte al servidor de PostgreSQL:
+
+   ```bash
+   psql -U <usuario>
+
+- **Crea la base de datos**
+  Ejecuta el siguiente comando en la consola de psql para crear la base de datos:
+
+    ```sql
+  CREATE DATABASE nombre_de_ddbb;
+
+- **Conéctate a la base de datos** 
+Cambia a la base de datos recién creada con el siguiente comando
+
+    ```sql
+  \c nombre_de_ddbb;
+
+- **Crea la tabla de pagos**
+  Ejecuta el siguiente comando SQL para crear la tabla payments
+
+    ```sql
+  CREATE TABLE payments (
+    id BIGSERIAL PRIMARY KEY,
+    card_number VARCHAR(255) NOT NULL,
+    amount NUMERIC(38, 2) NOT NULL,
+    payment_date DATE NOT NULL,
+    description VARCHAR(255),
+    created_at DATE DEFAULT CURRENT_DATE
+    );
+  
 1. Clona este repositorio:
 
    ```bash
-   git clone https://github.com/tu-usuario/nombre-del-repositorio.git
-   cd nombre-del-repositorio
+   git clone https://github.com/bebekerintt/pagos.git
+   cd pagos
 
 2. Configura la base de datos **PostgreSQL** en el archivo *application.properties*:
 
    ```bash
-    spring.datasource.url=jdbc:postgresql://localhost:5432/nombre_db
-    spring.datasource.username=usuario_db
-    spring.datasource.password=contraseña_db
+    spring.datasource.url=jdbc:postgresql://localhost:5432/nombre_bbdd
+    spring.datasource.username=usuario
+    spring.datasource.password=contraseña
 
 3. En caso de no tener un IDE que pueda manejar Maven y sus dependencias habria que abrir una terminal y luego ubicarse
    en la raiz del proyecto, donde **mvn** funcione, luego ejecutar el siguiente comando:
@@ -68,6 +102,7 @@ Este proyecto es un microservicio de gestión de pagos de tarjetas de crédito.
 
 - **Registrar Pago:**
     - **POST** `/api/payments`
+    - Content-Type: Application/Json
     - Cuerpo JSON:
       ```json
       {
