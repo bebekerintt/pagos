@@ -9,6 +9,7 @@ Este proyecto es un microservicio de gestión de pagos de tarjetas de crédito.
 - [Uso](#uso)
 - [Estructura de Ramas (Gitflow)](#estructura-de-ramas-gitflow)
 - [Documentación de la API](#documentación-de-la-api)
+- [Testeo de la aplicación](#ejecutar-tests-unitarios)
 
 ## Características
 - Registro de pagos de tarjetas de crédito.
@@ -78,7 +79,7 @@ Cambia a la base de datos recién creada con el siguiente comando
 
 2. Configura la base de datos **PostgreSQL** en el archivo *application.properties*:
 
-   ```bash
+   ```
     spring.datasource.url=jdbc:postgresql://localhost:5432/nombre_bbdd
     spring.datasource.username=usuario
     spring.datasource.password=contraseña
@@ -138,3 +139,20 @@ Una vez que la aplicación esté en funcionamiento, puedes acceder a la document
 - **Registrar Pago** (`POST /api/payments`): Permite registrar un nuevo pago de tarjeta de crédito.
 - **Listar Pagos** (`GET /api/payments`): Devuelve un listado de todos los pagos registrados, incluyendo el número de la tarjeta, la cantidad, la fecha y la descripción.
 
+
+## Ejecutar tests unitarios
+
+Este proyecto incluye pruebas unitarias y de integración para asegurar el correcto funcionamiento de sus componentes principales. Las pruebas están implementadas con [JUnit](https://junit.org/junit5/) y [Mockito](https://site.mockito.org/) y pueden ejecutarse fácilmente usando Maven.
+
+### Ejecución de Pruebas con Maven
+
+Para ejecutar todos los tests, puedes usar el siguiente comando en la terminal:
+
+    mvn test
+
+Para generar un reporte grafico de los tests y de la cobertura de los mismos en todo el proyecto:
+1. Abrir la carpeta del proyecto y la consola en esa ruta
+2. En la consola utilziar el siguiente comando
+    ```
+   mvn clean verify
+3. Esto deberia haber compilado la aplicacion y haber generado la carpeta`target`, en esa carpeta en la ruta `target/site/jococo`, encontraremos el archvico index.html, y si lo abrimos en un navegador veremos un informe gráfico con todos los datos sobre el testeo de la aplicación.
