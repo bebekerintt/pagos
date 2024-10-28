@@ -18,6 +18,7 @@ public class PathExceptionHandler {
         return "Ruta no encontrada. Por favor verifica la URL.";
     }
 
+    //Error general
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String handleGeneralException(Exception ex) {
