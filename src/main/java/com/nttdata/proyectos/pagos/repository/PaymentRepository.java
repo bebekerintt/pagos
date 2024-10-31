@@ -2,7 +2,8 @@ package com.nttdata.proyectos.pagos.repository;
 
 import com.nttdata.proyectos.pagos.dto.PaymentResponseDTO;
 import com.nttdata.proyectos.pagos.dto.PaymentRequestDTO;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,31 +15,31 @@ import java.util.List;
 @Repository
 public class PaymentRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public PaymentRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    private static final String GET_ALL_PAYMENTS_SQL = "SELECT id, card_number, amount, payment_date, description FROM payments";
+    private static final String ADD_PAYMENT_SQL = "INSERT INTO payments (card_number, amount, payment_date, description) " +
+                                                      "VALUES (:cardNumber, :amount, :paymentDate, :description)";
+
+    public PaymentRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public List<PaymentResponseDTO> findAll() {
-        String sql = "SELECT id, card_number, amount, payment_date, description FROM payments";
-
-        return jdbcTemplate.query(sql, new PaymentRowMapper());
+        return namedParameterJdbcTemplate.query(GET_ALL_PAYMENTS_SQL, new PaymentRowMapper());
     }
 
     public int save(PaymentRequestDTO paymentRequest) {
-        String sql = "INSERT INTO payments (card_number, amount, payment_date, description) VALUES (?, ?, ?, ?)";
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("cardNumber", paymentRequest.getCardNumber());
+        parameters.addValue("amount", paymentRequest.getAmount());
+        parameters.addValue("paymentDate", paymentRequest.getPaymentDate());
+        parameters.addValue("description", paymentRequest.getDescription());
 
-        return jdbcTemplate.update(sql,
-                paymentRequest.getCardNumber(),
-                paymentRequest.getAmount(),
-                paymentRequest.getPaymentDate(),
-                paymentRequest.getDescription()
-        );
+        return namedParameterJdbcTemplate.update(ADD_PAYMENT_SQL, parameters);
     }
 
     public static class PaymentRowMapper implements RowMapper<PaymentResponseDTO> {
-
         @Override
         public PaymentResponseDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
             PaymentResponseDTO payment = new PaymentResponseDTO();
