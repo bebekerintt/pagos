@@ -33,6 +33,7 @@ public class PaymentRepositoryTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
+        paymentRepository = spy(new PaymentRepository(namedParameterJdbcTemplate));
     }
 
     @Test
@@ -54,9 +55,12 @@ public class PaymentRepositoryTest {
     public void testSave() {
         PaymentRequestDTO paymentRequest = new PaymentRequestDTO("1234567812345678", BigDecimal.valueOf(150.50), LocalDate.now(), "Pago mensual");
 
+        doReturn(true).when(paymentRepository).isCardNumberPresent(paymentRequest.getCardNumber());
+
         paymentRepository.save(paymentRequest);
 
         String expectedSql = "INSERT INTO payments (card_number, amount, payment_date, description) VALUES (:cardNumber, :amount, :paymentDate, :description)";
-        verify(namedParameterJdbcTemplate).update(eq(expectedSql), (SqlParameterSource)any());
+        verify(namedParameterJdbcTemplate).update(eq(expectedSql), any(MapSqlParameterSource.class));
+        verify(paymentRepository).isCardNumberPresent(paymentRequest.getCardNumber());
     }
 }
