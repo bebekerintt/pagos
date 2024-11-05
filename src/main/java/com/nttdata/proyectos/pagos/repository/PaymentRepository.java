@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -17,6 +16,7 @@ public class PaymentRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
+    private static final String CHECK_CARD_EXISTENCE_SQL = "SELECT COUNT(*) FROM cards WHERE card_number = :cardNumber";
     private static final String GET_ALL_PAYMENTS_SQL = "SELECT id, card_number, amount, payment_date, description FROM payments";
     private static final String ADD_PAYMENT_SQL = "INSERT INTO payments (card_number, amount, payment_date, description) " +
                                                       "VALUES (:cardNumber, :amount, :paymentDate, :description)";
@@ -30,6 +30,10 @@ public class PaymentRepository {
     }
 
     public int save(PaymentRequestDTO paymentRequest) {
+        if (!isCardNumberPresent(paymentRequest.getCardNumber())) {
+            throw new IllegalArgumentException("The card number " + paymentRequest.getCardNumber() + " does not exist.");
+        }
+
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("cardNumber", paymentRequest.getCardNumber());
         parameters.addValue("amount", paymentRequest.getAmount());
@@ -37,6 +41,12 @@ public class PaymentRepository {
         parameters.addValue("description", paymentRequest.getDescription());
 
         return namedParameterJdbcTemplate.update(ADD_PAYMENT_SQL, parameters);
+    }
+
+    public boolean isCardNumberPresent(String cardNumber) {
+        MapSqlParameterSource parameters = new MapSqlParameterSource().addValue("cardNumber", cardNumber);
+        Integer count = namedParameterJdbcTemplate.queryForObject(CHECK_CARD_EXISTENCE_SQL, parameters, Integer.class);
+        return count != null && count > 0;
     }
 
     public static class PaymentRowMapper implements RowMapper<PaymentResponseDTO> {
